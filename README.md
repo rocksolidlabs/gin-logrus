@@ -13,7 +13,7 @@ replacement for the default logger used in Gin.
 
 
 ```
-go get github.com/rocksolid/gin-logrus
+go get github.com/rocksolidlabs/gin-logrus
 ```
 
 ### Example
@@ -38,6 +38,10 @@ func main() {
     router.Run(":8080")
 }
 ```
+
+## Derived from
+
+https://github.com/zalando/gin-glog
 
 ## License
 
