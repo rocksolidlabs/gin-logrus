@@ -141,7 +141,7 @@ func Logger(outputTag string, outputJSON bool, outputColor bool, outputFile io.W
 				)
 			}
 		default:
-			log.Infof("[%s] |%s %3d %s| %12v | %s |%s  %s %-7s %s\n%s",
+			log.Debugf("[%s] |%s %3d %s| %12v | %s |%s  %s %-7s %s\n%s",
 				outputTag,
 				statusColor, statusCode, reset,
 				latency,
