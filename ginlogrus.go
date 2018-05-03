@@ -147,11 +147,7 @@ func Logger(l *logrus.Logger, outputTag string, outputJSON bool, outputColor boo
 				)
 			}
 		default:
-<<<<<<< HEAD
-			log.Debugf("[%s] |%s %3d %s| %12v | %s |%s  %s %-7s %s %s",
-=======
 			log.Debugf("[%s] |%s %3d %s| %12v | %s |%s  %s %-7s %s\n%s",
->>>>>>> 06a7291afa0e0b1bb1753cee5702c49912b2fa7e
 				outputTag,
 				statusColor, statusCode, reset,
 				latency,
