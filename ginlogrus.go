@@ -31,9 +31,12 @@ import (
 	"io"
 	"time"
 
-	"github.com/gin-gonic/gin"
-	log "github.com/sirupsen/logrus"
+	"github.com/sirupsen/logrus"
+
+	"gopkg.in/gin-gonic/gin.v1"
 )
+
+var log *logrus.Logger
 
 var (
 	green   = string([]byte{27, 91, 57, 55, 59, 52, 50, 109})
@@ -73,7 +76,10 @@ func ErrorLoggerT(typ gin.ErrorType) gin.HandlerFunc {
 // Example:
 //        router := gin.New()
 //        router.Use(ginlogrus.Logger(false, true, os.Stdout, log.WarnLevel))
-func Logger(outputTag string, outputJSON bool, outputColor bool, outputFile io.Writer, outLevel log.Level) gin.HandlerFunc {
+func Logger(l *logrus.Logger, outputTag string, outputJSON bool, outputColor bool, outputFile io.Writer, outLevel logrus.Level) gin.HandlerFunc {
+
+	// set the logger
+	log = l
 
 	// Set the output tag
 	if outputTag == "" {
@@ -82,20 +88,20 @@ func Logger(outputTag string, outputJSON bool, outputColor bool, outputFile io.W
 
 	// Log as JSON instead of the default ASCII formatter.
 	if outputJSON {
-		log.SetFormatter(&log.JSONFormatter{})
+		logrus.SetFormatter(&logrus.JSONFormatter{})
 		reset = ""
 	}
 
 	// Turn off logrus color
 	if !outputColor && !outputJSON {
-		log.SetFormatter(&log.TextFormatter{FullTimestamp: true, DisableColors: true})
+		logrus.SetFormatter(&logrus.TextFormatter{FullTimestamp: true, DisableColors: true})
 	}
 
 	// Output to stdout instead of the default stderr, could also be a file.
-	log.SetOutput(outputFile)
+	logrus.SetOutput(outputFile)
 
 	// Set log severity oputLevel or above.
-	log.SetLevel(outLevel)
+	logrus.SetLevel(outLevel)
 
 	return func(c *gin.Context) {
 		t := time.Now()
@@ -118,7 +124,7 @@ func Logger(outputTag string, outputJSON bool, outputColor bool, outputFile io.W
 		switch {
 		case statusCode >= 400 && statusCode <= 499:
 			{
-				log.Warningf("[%s] |%s %3d %s| %12v | %s |%s  %s %-7s %s\n%s",
+				log.Warningf("[%s] |%s %3d %s| %12v | %s |%s  %s %-7s %s %s",
 					outputTag,
 					statusColor, statusCode, reset,
 					latency,
@@ -130,7 +136,7 @@ func Logger(outputTag string, outputJSON bool, outputColor bool, outputFile io.W
 			}
 		case statusCode >= 500:
 			{
-				log.Errorf("[%s] |%s %3d %s| %12v | %s |%s  %s %-7s %s\n%s",
+				log.Errorf("[%s] |%s %3d %s| %12v | %s |%s  %s %-7s %s %s",
 					outputTag,
 					statusColor, statusCode, reset,
 					latency,
@@ -141,7 +147,11 @@ func Logger(outputTag string, outputJSON bool, outputColor bool, outputFile io.W
 				)
 			}
 		default:
+<<<<<<< HEAD
+			log.Debugf("[%s] |%s %3d %s| %12v | %s |%s  %s %-7s %s %s",
+=======
 			log.Debugf("[%s] |%s %3d %s| %12v | %s |%s  %s %-7s %s\n%s",
+>>>>>>> 06a7291afa0e0b1bb1753cee5702c49912b2fa7e
 				outputTag,
 				statusColor, statusCode, reset,
 				latency,
