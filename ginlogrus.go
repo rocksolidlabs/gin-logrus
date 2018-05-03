@@ -33,7 +33,7 @@ import (
 
 	"github.com/sirupsen/logrus"
 
-	"gopkg.in/gin-gonic/gin.v1"
+	"github.com/gin-gonic/gin"
 )
 
 var log *logrus.Logger
