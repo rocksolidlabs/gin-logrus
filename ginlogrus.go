@@ -89,6 +89,7 @@ func Logger(log *logrus.Logger, outputTag string, outputJSON bool, outputColor b
 	// Turn off logrus color
 	if !outputColor && !outputJSON {
 		log.Formatter = &logrus.TextFormatter{FullTimestamp: true, DisableColors: true}
+		reset = ""
 	}
 
 	// Output to stdout instead of the default stderr, could also be a file.
