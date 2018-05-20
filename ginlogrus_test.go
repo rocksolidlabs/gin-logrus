@@ -17,7 +17,8 @@ func Test_ErrorLogger(t *testing.T) {
 }
 
 func Test_Logger(t *testing.T) {
-	middleware := Logger(false, true, os.Stdout, logrus.WarnLevel)
+	log := logrus.New()
+	middleware := Logger(log, "TEST", false, true, os.Stdout, logrus.WarnLevel)
 	assert.NotNil(t, middleware, "Can't get Logger middleware")
 }
 

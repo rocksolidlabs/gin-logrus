@@ -82,17 +82,17 @@ func Logger(log *logrus.Logger, outputTag string, outputJSON bool, outputColor b
 
 	// Log as JSON instead of the default ASCII formatter.
 	if outputJSON {
-		logrus.SetFormatter(&logrus.JSONFormatter{})
+		log.Formatter = &logrus.JSONFormatter{}
 		reset = ""
 	}
 
 	// Turn off logrus color
 	if !outputColor && !outputJSON {
-		log.SetFormatter(&logrus.TextFormatter{FullTimestamp: true, DisableColors: true})
+		log.Formatter = &logrus.TextFormatter{FullTimestamp: true, DisableColors: true}
 	}
 
 	// Output to stdout instead of the default stderr, could also be a file.
-	log.SetOutput(outputFile)
+	log.Out = outputFile
 
 	// Set log severity oputLevel or above.
 	log.SetLevel(outLevel)
