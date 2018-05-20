@@ -36,8 +36,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-var log *logrus.Logger
-
 var (
 	green   = string([]byte{27, 91, 57, 55, 59, 52, 50, 109})
 	white   = string([]byte{27, 91, 57, 48, 59, 52, 55, 109})
@@ -76,11 +74,7 @@ func ErrorLoggerT(typ gin.ErrorType) gin.HandlerFunc {
 // Example:
 //        router := gin.New()
 //        router.Use(ginlogrus.Logger(false, true, os.Stdout, log.WarnLevel))
-func Logger(l *logrus.Logger, outputTag string, outputJSON bool, outputColor bool, outputFile io.Writer, outLevel logrus.Level) gin.HandlerFunc {
-
-	// set the logger
-	log = l
-
+func Logger(log *logrus.Logger, outputTag string, outputJSON bool, outputColor bool, outputFile io.Writer, outLevel logrus.Level) gin.HandlerFunc {
 	// Set the output tag
 	if outputTag == "" {
 		outputTag = "GIN"
@@ -94,14 +88,14 @@ func Logger(l *logrus.Logger, outputTag string, outputJSON bool, outputColor boo
 
 	// Turn off logrus color
 	if !outputColor && !outputJSON {
-		logrus.SetFormatter(&logrus.TextFormatter{FullTimestamp: true, DisableColors: true})
+		log.SetFormatter(&logrus.TextFormatter{FullTimestamp: true, DisableColors: true})
 	}
 
 	// Output to stdout instead of the default stderr, could also be a file.
-	logrus.SetOutput(outputFile)
+	log.SetOutput(outputFile)
 
 	// Set log severity oputLevel or above.
-	logrus.SetLevel(outLevel)
+	log.SetLevel(outLevel)
 
 	return func(c *gin.Context) {
 		t := time.Now()
